@@ -5,7 +5,6 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-
     volumes:
       - ./infrastructure/db/init.sh:/docker-entrypoint-initdb.d/init.sh
       - postgres_data:/var/lib/postgresql
@@ -16,6 +15,13 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+
+  etl:
+    build: ./etl
+    environment:
+      - DATA_DIR=/data
+    volumes:
+      - ./data:/data
 
 volumes:
   postgres_data:

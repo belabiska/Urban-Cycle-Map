@@ -1,4 +1,11 @@
-FROM ubuntu:latest
-LABEL authors="bjarne"
+FROM ubuntu:24.04
 
-ENTRYPOINT ["top", "-b"]
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+
+COPY . ./etl
+
+ENTRYPOINT ["bash", "etl/src/fetch_osm.sh"]

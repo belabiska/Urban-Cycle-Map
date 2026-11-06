@@ -2,19 +2,11 @@
 
 set -euo pipefail
 
-ROOT=$(git rev-parse --show-toplevel)
 TODAY=$(date '+%Y-%m-%d')
+DATA_DIR="${DATA_DIR:-/data}"
+OUT_DIR="${DATA_DIR}/osm/raw"
 
-create_dir () {
-  mkdir -p "${ROOT}/data/osm/${TODAY}"
-}
+mkdir -p "${OUT_DIR}"
 
-cleanup() {
-  echo "Clean up temporary data ... "
-  #rm -rf ./$"TMP"
-  rm test.osm.pbf
-}
-#trap cleanup EXIT
-create_dir
-#curl -o test.osm.pbf https://download.geofabrik.de/europe/germany/sachsen.html
+curl -fL -o "${OUT_DIR}/sachsen-latest_${TODAY}.osm.pbf" https://download.geofabrik.de/europe/germany/sachsen-latest.osm.pbf
 
